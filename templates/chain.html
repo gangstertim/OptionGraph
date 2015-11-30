@@ -12,28 +12,36 @@
         <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     </head>
     <body>
-        <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
+        <div class="mdl-layout mdl-js-layout mdl-layout--fixed-drawer mdl-layout--fixed-header">
             <header class="mdl-layout__header">
                 <div class="mdl-layout__header-row">
                     <span class="mdl-layout-title">OptPlot</span>
                 </div>
             </header>
-            <main>
-                <div class="mdl-page">
-                    <div class="mdl-grid">
-                        <div class="mdl-cell mdl-cell--top mdl-cell--3-col mdl-textfield mdl-js-textfield">
-                            <form method="post" action={{ url_for('getChain') }}>
-                                <input class="mdl-textfield__input" type="text" name="symbol" id="symbolEntry"/>
-                                <label class="mdl-textfield__label" for="symbolEntry">Symbol</label>
-                            </form>
+            <div class="mdl-layout__drawer">
+                <span class="mdl-layout-title">OptPlot</span>
+                <div class="mdl-cell mdl-cell--top mdl-cell--12-col">
+                    <form method="post" action={{ url_for('getChain') }}>
+                        <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                            <input class="mdl-textfield__input" type="text" name="symbol" id="symbolEntry"/>
+                            <label class="mdl-textfield__label" for="symbolEntry">Symbol</label>
                         </div>
-                    </div>
+                    </form>
+                </div>
+                <nav class="mdl-navigation">
+                    <a class="mdl-navigation__link" href="">Link</a>
+                    <a class="mdl-navigation__link" href="">Link</a>
+                    <a class="mdl-navigation__link" href="">Link</a>
+                    <a class="mdl-navigation__link" href="">Link</a>
+                </nav>
+            </div>
+            <main class="mdl-layout__content">
+                <div class="mdl-page">
                     <div class="mdl-grid">
                         <div class="mdl-cell mdl-cell--top mdl-cell--12-col">
                             <canvas id="myChart"></canvas>
                             <script>
                                 var randomScalingFactor = function(){return Math.round(Math.random()*100)};
-                                
                                 var lineChartData = {
                                     labels : ["January", "February", "March", "April", "May"],
                                     datasets : [
@@ -61,7 +69,10 @@
                                 }
                                 window.onload = function(){
                                     var ctx = document.getElementById("myChart").getContext("2d");
-                                    window.myLine = new Chart(ctx).Line(lineChartData,{responsive: true});
+                                    window.myLine = new Chart(ctx).Line(lineChartData,{
+                                        bezierCurve: false,
+                                        responsive: true
+                                    });
                                 }
                             </script>
                         </div>
