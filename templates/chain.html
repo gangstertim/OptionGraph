@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+
+<html lang="en">
+    <head>
+        <meta name="charset" content="UTF-8">
+        <meta name="keywords" content="Finance,Options,Profit,Loss,Chart,Graph">
+        <meta name="author" content="Joseph Zhong">
+        <title>Options PnL Graph</title>
+        <link type="text/css" rel="stylesheet" href={{ url_for('static', filename='mdl/material.min.css')}}>
+        <script src={{ url_for('static', filename='mdl/material.min.js')}}></script>
+        <script src={{ url_for('static', filename='node_modules/chart.js/Chart.min.js')}}></script>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    </head>
+    <body>
+        <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
+            <header class="mdl-layout__header">
+                <div class="mdl-layout__header-row">
+                    <span class="mdl-layout-title">OptPlot</span>
+                </div>
+            </header>
+            <main>
+                <div class="mdl-page">
+                    <div class="mdl-grid">
+                        <div class="mdl-cell mdl-cell--top mdl-cell--3-col mdl-textfield mdl-js-textfield">
+                            <form method="post" action={{ url_for('getChain') }}>
+                                <input class="mdl-textfield__input" type="text" name="symbol" id="symbolEntry"/>
+                                <label class="mdl-textfield__label" for="symbolEntry">Symbol</label>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="mdl-grid">
+                        <div class="mdl-cell mdl-cell--top mdl-cell--12-col">
+                            <canvas id="myChart"></canvas>
+                            <script>
+                                var randomScalingFactor = function(){return Math.round(Math.random()*100)};
+                                
+                                var lineChartData = {
+                                    labels : ["January", "February", "March", "April", "May"],
+                                    datasets : [
+                                                {
+                                                    label: "My First Dataset",
+                                                    fillColor: "rgba(220,220,220,0.2)",
+                                                    strokeColor: "rgba(220,220,220,1)",
+                                                    pointColor: "rgba(220,220,220,1)",
+                                                    pointStrokeColor: "#fff",
+                                                    pointHighlightFill: "#fff",
+                                                    pointHighlightStroke: "rgba(220,220,220,1)",
+                                                    data: [randomScalingFactor(),randomScalingFactor(),randomScalingFactor(),randomScalingFactor(),randomScalingFactor()]
+                                                },
+                                                {
+                                                    label: "My Second Dataset",
+                                                    fillColor: "rgba(151,187,205,0.2)",
+                                                    strokeColor: "rgba(151,187,205,1)",
+                                                    pointColor: "rgba(151,187,205,1)",
+                                                    pointStrokeColor: "#fff",
+                                                    pointHighlightFill: "#fff",
+                                                    pointHighlightStroke: "rgba(151,187,205,1)",
+                                                    data: [randomScalingFactor(),randomScalingFactor(),randomScalingFactor(),randomScalingFactor(),randomScalingFactor()]
+                                                }
+                                    ]
+                                }
+                                window.onload = function(){
+                                    var ctx = document.getElementById("myChart").getContext("2d");
+                                    window.myLine = new Chart(ctx).Line(lineChartData,{responsive: true});
+                                }
+                            </script>
+                        </div>
+                    </div>
+                    <div class="mdl-grid">
+                        <table class="mdl-cell mdl-cell--6-col mdl-data-table mdl-js-data-table mdl-shadow--2dp">
+                            <thead>
+                                <tr>
+                                    <th class="mdl-data-table__cell--non-numeric">Symbol</th>
+                                    <th>Strike</th>
+                                    <th>Last</th>
+                                    <th>Bid</th>
+                                    <th>Ask</th>
+                                    <th>Sell</th>
+                                    <th>Qty</th>
+                                    <th>Buy</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for call in callChain %}
+                                <tr>
+                                    <th class="mdl-data-table__cell--non-numeric" style="vertical-align:middle; padding-top: 0px;">{{call['symbol']}}</th>
+                                    <th style="vertical-align:middle; padding-top: 0px;">{{call['strike']}}</th>
+                                    <th style="vertical-align:middle; padding-top: 0px;">{{call['last']}}</th>
+                                    <th style="vertical-align:middle; padding-top: 0px;">{{call['bid']}}</th>
+                                    <th style="vertical-align:middle; padding-top: 0px;">{{call['ask']}}</th>
+                                    <th>
+                                            <button class="mdl-button mdl-js-button mdl-button--icon mdl-js-ripple-effect mdl-button--colored">
+                                                <i class="material-icons mdl-color-text--red">remove_circle_outline</i>
+                                            </button>
+                                    </th>
+                                    <th style="vertical-align:middle; padding-top: 0px;">0</th>
+                                    <th>
+                                            <button class="mdl-button mdl-js-button mdl-button--icon mdl-js-ripple-effect mdl-button--colored">
+                                                <i class="material-icons mdl-color-text--cyan">add_circle_outline</i>
+                                            </button>
+                                    </th>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+
+                        <table class="mdl-cell mdl-cell--6-col mdl-data-table mdl-js-data-table mdl-shadow--2dp">
+                            <thead>
+                                <tr>
+                                    <th class="mdl-data-table__cell--non-numeric">Symbol</th>
+                                    <th>Strike</th>
+                                    <th>Last</th>
+                                    <th>Bid</th>
+                                    <th>Ask</th>
+                                    <th>Sell</th>
+                                    <th>Qty</th>
+                                    <th>Buy</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for put in putsChain %}
+                                <tr>
+                                    <th class="mdl-data-table__cell--non-numeric" style="vertical-align:middle; padding-top: 0px;">{{put['symbol']}}</th>
+                                    <th style="vertical-align:middle; padding-top: 0px;">{{put['strike']}}</th>
+                                    <th style="vertical-align:middle; padding-top: 0px;">{{put['last']}}</th>
+                                    <th style="vertical-align:middle; padding-top: 0px;">{{put['bid']}}</th>
+                                    <th style="vertical-align:middle; padding-top: 0px;">{{put['ask']}}</th>
+                                    <th>
+                                            <button class="mdl-button mdl-js-button mdl-button--icon mdl-js-ripple-effect mdl-button--colored">
+                                                <i class="material-icons mdl-color-text--red">remove_circle_outline</i>
+                                            </button>
+                                    </th>
+                                    <th style="vertical-align:middle; padding-top: 0px;">0</th>
+                                    <th>
+                                            <button class="mdl-button mdl-js-button mdl-button--icon mdl-js-ripple-effect mdl-button--colored">
+                                                <i class="material-icons mdl-color-text--cyan">add_circle_outline</i>
+                                            </button>
+                                    </th>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </body>
+</html>

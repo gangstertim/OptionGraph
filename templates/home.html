@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+
+<html lang="en">
+    <head>
+        <meta name="charset" content="UTF-8">
+        <meta name="keywords" content="Finance,Options,Profit,Loss,Chart,Graph">
+        <meta name="author" content="Joseph Zhong">
+        <title>Options PnL Graph</title>
+        <link type="text/css" rel="stylesheet" href={{ url_for('static', filename='mdl/material.min.css')}}>
+        <script src={{ url_for('static', filename='mdl/material.min.js')}}></script> 
+        <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    </head>
+    <body>
+        <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
+            <header class="mdl-layout__header">
+                <div class="mdl-layout__header-row">
+                    <span class="mdl-layout-title">OptPlot</span>
+                </div>
+            </header>
+            <main class="mdl-layout__content">
+                <div class="optplot-page">
+                    <div class="mdl-grid">
+                        <div class="mdl-cell mdl-cell--top mdl-cell--3-col mdl-textfield mdl-js-textfield">
+                            <input class="mdl-textfield__input" type="text" id="symbolEntry"/>
+                            <label class="mdl-textfield__label" for="symbolEntry">Symbol</label>
+                        </div>
+                        <table class="mdl-cell mdl-cell--9-col mdl-data-table mdl-js-data-table mdl-shadow--2dp">
+                            <thead>
+                                <tr>
+                                    <th>Strike</th>
+                                    <th>Last</th>
+                                    <th>Bid</th>
+                                    <th>Ask</th>
+                                    <th>Sell</th>
+                                    <th>Qty</th>
+                                    <th>Buy</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td style="vertical-align:middle; padding-top: 0px;">12</td>
+                                    <td style="vertical-align:middle; padding-top: 0px;">10</td>
+                                    <td style="vertical-align:middle; padding-top: 0px;">9.5</td>
+                                    <td style="vertical-align:middle; padding-top: 0px;">10.5</td>
+                                    <td style="padding-bottom: 1em; vertical-align:top;">
+                                        <button class="mdl-button mdl-js-button mdl-button--icon mdl-js-ripple-effect mdl-button--colored">
+                                            <i class="material-icons mdl-color-text--red">remove_circle_outline</i>
+                                        </button>
+                                    </td>
+                                    <td style="vertical-align:middle; padding-top: 0px;">0</td>
+                                    <td>
+                                        <button class="mdl-button mdl-js-button mdl-button--icon mdl-button--mini-fab mdl-js-ripple-effect mdl-button--colored">
+                                            <i class="material-icons mdl-color-text--cyan">add_circle_outline</i>
+                                        </button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </body>
+</html>
