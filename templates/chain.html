@@ -12,29 +12,24 @@
         <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     </head>
     <body>
-        <div class="mdl-layout mdl-js-layout mdl-layout--fixed-drawer mdl-layout--fixed-header">
+        <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
             <header class="mdl-layout__header">
                 <div class="mdl-layout__header-row">
                     <span class="mdl-layout-title">OptPlot</span>
-                </div>
-            </header>
-            <div class="mdl-layout__drawer">
-                <span class="mdl-layout-title">OptPlot</span>
-                <div class="mdl-cell mdl-cell--top mdl-cell--12-col">
+                    <div class="mdl-layout-spacer"></div>
                     <form method="post" action={{ url_for('getChain') }}>
-                        <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-                            <input class="mdl-textfield__input" type="text" name="symbol" id="symbolEntry"/>
-                            <label class="mdl-textfield__label" for="symbolEntry">Symbol</label>
+                        <div class="mdl-textfield mdl-js-textfield mdl-textfield--expandable">
+                            <label class="mdl-button mdl-js-button mdl-button--icon" for="symbolEntry">
+                                <i class="material-icons">search</i>
+                            </label>
+                            <div class="mdl-textfield__expandable-holder">
+                                <input class="mdl-textfield__input" type="text" name="symbol" id="symbolEntry"/>
+                                <label class="mdl-textfield__label" for="symbolEntry">Symbol</label>
+                            </div>
                         </div>
                     </form>
                 </div>
-                <nav class="mdl-navigation">
-                    <a class="mdl-navigation__link" href="">Link</a>
-                    <a class="mdl-navigation__link" href="">Link</a>
-                    <a class="mdl-navigation__link" href="">Link</a>
-                    <a class="mdl-navigation__link" href="">Link</a>
-                </nav>
-            </div>
+            </header>
             <main class="mdl-layout__content">
                 <div class="mdl-page">
                     <div class="mdl-grid">
@@ -81,35 +76,35 @@
                         <table class="mdl-cell mdl-cell--6-col mdl-data-table mdl-js-data-table mdl-shadow--2dp">
                             <thead>
                                 <tr>
-                                    <th class="mdl-data-table__cell--non-numeric">Symbol</th>
+                                    <th class="mdl-data-table__cell--non-numeric">Call</th>
                                     <th>Strike</th>
                                     <th>Last</th>
                                     <th>Bid</th>
                                     <th>Ask</th>
-                                    <th>Sell</th>
-                                    <th>Qty</th>
-                                    <th>Buy</th>
+                                    <th style="text-align:center;">Sell</th>
+                                    <th style="text-align:center;">Qty</th>
+                                    <th style="text-align:center;">Buy</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 {% for call in callChain %}
                                 <tr>
-                                    <th class="mdl-data-table__cell--non-numeric" style="vertical-align:middle; padding-top: 0px;">{{call['symbol']}}</th>
-                                    <th style="vertical-align:middle; padding-top: 0px;">{{call['strike']}}</th>
-                                    <th style="vertical-align:middle; padding-top: 0px;">{{call['last']}}</th>
-                                    <th style="vertical-align:middle; padding-top: 0px;">{{call['bid']}}</th>
-                                    <th style="vertical-align:middle; padding-top: 0px;">{{call['ask']}}</th>
-                                    <th>
-                                            <button class="mdl-button mdl-js-button mdl-button--icon mdl-js-ripple-effect mdl-button--colored">
-                                                <i class="material-icons mdl-color-text--red">remove_circle_outline</i>
-                                            </button>
-                                    </th>
-                                    <th style="vertical-align:middle; padding-top: 0px;">0</th>
-                                    <th>
-                                            <button class="mdl-button mdl-js-button mdl-button--icon mdl-js-ripple-effect mdl-button--colored">
-                                                <i class="material-icons mdl-color-text--cyan">add_circle_outline</i>
-                                            </button>
-                                    </th>
+                                    <td class="mdl-data-table__cell--non-numeric">{{call['symbol']}}</td>
+                                    <td>{{call['strike']}}</td>
+                                    <td>{{call['last']}}</td>
+                                    <td>{{call['bid']}}</td>
+                                    <td>{{call['ask']}}</td>
+                                    <td style="text-align:center; vertical-align:middle; padding-top: 0px;">
+                                        <button class="mdl-button mdl-js-button mdl-button--icon mdl-js-ripple-effect mdl-button--colored">
+                                            <i class="material-icons mdl-color-text--red">remove_circle_outline</i>
+                                        </button>
+                                    </td>
+                                    <td style="text-align:center;">0</td>
+                                    <td style="text-align:center; vertical-align:middle; padding-top: 0px;">
+                                        <button class="mdl-button mdl-js-button mdl-button--icon mdl-js-ripple-effect mdl-button--colored">
+                                            <i class="material-icons mdl-color-text--cyan">add_circle_outline</i>
+                                        </button>
+                                    </td>
                                 </tr>
                                 {% endfor %}
                             </tbody>
@@ -118,35 +113,35 @@
                         <table class="mdl-cell mdl-cell--6-col mdl-data-table mdl-js-data-table mdl-shadow--2dp">
                             <thead>
                                 <tr>
-                                    <th class="mdl-data-table__cell--non-numeric">Symbol</th>
+                                    <th class="mdl-data-table__cell--non-numeric">Put</th>
                                     <th>Strike</th>
                                     <th>Last</th>
                                     <th>Bid</th>
                                     <th>Ask</th>
-                                    <th>Sell</th>
-                                    <th>Qty</th>
-                                    <th>Buy</th>
+                                    <th style="text-align:center;">Sell</th>
+                                    <th style="text-align:center;">Qty</th>
+                                    <th style="text-align:center;">Buy</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 {% for put in putsChain %}
                                 <tr>
-                                    <th class="mdl-data-table__cell--non-numeric" style="vertical-align:middle; padding-top: 0px;">{{put['symbol']}}</th>
-                                    <th style="vertical-align:middle; padding-top: 0px;">{{put['strike']}}</th>
-                                    <th style="vertical-align:middle; padding-top: 0px;">{{put['last']}}</th>
-                                    <th style="vertical-align:middle; padding-top: 0px;">{{put['bid']}}</th>
-                                    <th style="vertical-align:middle; padding-top: 0px;">{{put['ask']}}</th>
-                                    <th>
-                                            <button class="mdl-button mdl-js-button mdl-button--icon mdl-js-ripple-effect mdl-button--colored">
-                                                <i class="material-icons mdl-color-text--red">remove_circle_outline</i>
-                                            </button>
-                                    </th>
-                                    <th style="vertical-align:middle; padding-top: 0px;">0</th>
-                                    <th>
-                                            <button class="mdl-button mdl-js-button mdl-button--icon mdl-js-ripple-effect mdl-button--colored">
-                                                <i class="material-icons mdl-color-text--cyan">add_circle_outline</i>
-                                            </button>
-                                    </th>
+                                    <td class="mdl-data-table__cell--non-numeric">{{put['symbol']}}</td>
+                                    <td>{{put['strike']}}</td>
+                                    <td>{{put['last']}}</td>
+                                    <td>{{put['bid']}}</td>
+                                    <td>{{put['ask']}}</td>
+                                    <td style="text-align:center; vertical-align:middle; padding-top: 0px;">
+                                        <button class="mdl-button mdl-js-button mdl-button--icon mdl-js-ripple-effect mdl-button--colored">
+                                            <i class="material-icons mdl-color-text--red">remove_circle_outline</i>
+                                        </button>
+                                    </td>
+                                    <td style="text-align:center;">0</td>
+                                    <td style="text-align:center; vertical-align:middle; padding-top: 0px;">
+                                        <button class="mdl-button mdl-js-button mdl-button--icon mdl-js-ripple-effect mdl-button--colored">
+                                            <i class="material-icons mdl-color-text--cyan">add_circle_outline</i>
+                                        </button>
+                                    </td>
                                 </tr>
                                 {% endfor %}
                             </tbody>
