@@ -16,7 +16,7 @@
         <tr>
             <td class="mdl-data-table__cell--non-numeric">{{put['symbol']}}</td>
             <td>{{'${:.0f}'.format(put['strike'])}}</td>
-            <td>{{'${:.2f}'.format(put['last'])}}</td>
+            <td>{{'${:.0f}'.format(put['last']) if put['last'] is not none else 'NA'}}</td>
             <td>{{'${:.2f}'.format(put['bid'])}}</td>
             <td>{{'${:.2f}'.format(put['ask'])}}</td>
             <td style="text-align:center; vertical-align:middle; padding-top: 0px;">

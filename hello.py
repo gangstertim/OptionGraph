@@ -1,7 +1,9 @@
 from flask import Flask, render_template, request
 import httplib
+import pprint
 import json
 
+pp = pprint.PrettyPrinter(indent=4)
 app = Flask(__name__)
 
 @app.route('/')
@@ -33,6 +35,8 @@ def getChain():
         callChain = [x for x in contractsList if x['option_type'] == "call"]
         responseHeaders = response.getheaders()
         responseBody = response.read()
+        for call in callChain:
+            print(call['last'])
         return render_template('index.html', putsChain=putsChain, callChain=callChain)
     except httplib.HTTPException, e:
         print('Exception during request')
