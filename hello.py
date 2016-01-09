@@ -10,7 +10,7 @@ def hello_world():
 
 # variable route to quote a symbol
 
-@app.route('/chain/', methods=['GET','POST'])
+@app.route('/index/', methods=['GET','POST'])
 def getChain():
     if request.method == 'GET':
         return render_template('chain.html')
