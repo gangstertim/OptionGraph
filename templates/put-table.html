@@ -20,13 +20,13 @@
             <td>{{'${:.2f}'.format(put['bid'])}}</td>
             <td>{{'${:.2f}'.format(put['ask'])}}</td>
             <td style="text-align:center; vertical-align:middle; padding-top: 0px;">
-                <button class="mdl-button mdl-js-button mdl-button--icon mdl-js-ripple-effect mdl-button--colored">
+                <button class="mdl-button mdl-js-button mdl-button--icon mdl-js-ripple-effect mdl-button--colored put-sell" data-id="{{put['symbol']}}">
                     <i class="material-icons mdl-color-text--red">remove_circle_outline</i>
                 </button>
             </td>
-            <td style="text-align:center;">0</td>
+            <td style="text-align:center;" class="qty">0</td>
             <td style="text-align:center; vertical-align:middle; padding-top: 0px;">
-                <button class="mdl-button mdl-js-button mdl-button--icon mdl-js-ripple-effect mdl-button--colored">
+                <button class="mdl-button mdl-js-button mdl-button--icon mdl-js-ripple-effect mdl-button--colored put-buy" data-id="{put['symbol']}}">
                     <i class="material-icons mdl-color-text--cyan">add_circle_outline</i>
                 </button>
             </td>
