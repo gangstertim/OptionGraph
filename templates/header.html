@@ -1,0 +1,17 @@
+<header class="mdl-layout__header">
+    <div class="mdl-layout__header-row">
+        <span class="mdl-layout-title">OptPlot</span>
+        <div class="mdl-layout-spacer"></div>
+        <form method="post" action={{ url_for('getChain') }}>
+            <div class="mdl-textfield mdl-js-textfield mdl-textfield--expandable">
+                <label class="mdl-button mdl-js-button mdl-button--icon" for="symbolEntry">
+                    <i class="material-icons">search</i>
+                </label>
+                <div class="mdl-textfield__expandable-holder">
+                    <input class="mdl-textfield__input" type="text" name="symbol" id="symbolEntry"/>
+                    <label class="mdl-textfield__label" for="symbolEntry">Symbol</label>
+                </div>
+            </div>
+        </form>
+    </div>
+</header>

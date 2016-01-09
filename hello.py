@@ -13,7 +13,7 @@ def hello_world():
 @app.route('/index/', methods=['GET','POST'])
 def getChain():
     if request.method == 'GET':
-        return render_template('chain.html')
+        return render_template('index.html')
 
     symbol = request.form['symbol']
     # set up the https connection with Tradier API
@@ -33,7 +33,7 @@ def getChain():
         callChain = [x for x in contractsList if x['option_type'] == "call"]
         responseHeaders = response.getheaders()
         responseBody = response.read()
-        return render_template('chain.html', putsChain=putsChain, callChain=callChain)
+        return render_template('index.html', putsChain=putsChain, callChain=callChain)
     except httplib.HTTPException, e:
         print('Exception during request')
 
