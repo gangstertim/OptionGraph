@@ -90,10 +90,10 @@
                                 {% for call in callChain %}
                                 <tr>
                                     <td class="mdl-data-table__cell--non-numeric">{{call['symbol']}}</td>
-                                    <td>{{call['strike']}}</td>
-                                    <td>{{call['last']}}</td>
-                                    <td>{{call['bid']}}</td>
-                                    <td>{{call['ask']}}</td>
+                                    <td>{{'${:.0f}'.format(call['strike'])}}</td>
+                                    <td>{{'${:.2f}'.format(call['last'])}}</td>
+                                    <td>{{'${:.2f}'.format(call['bid'])}}</td>
+                                    <td>{{'${:.2f}'.format(call['ask'])}}</td>
                                     <td style="text-align:center; vertical-align:middle; padding-top: 0px;">
                                         <button class="mdl-button mdl-js-button mdl-button--icon mdl-js-ripple-effect mdl-button--colored">
                                             <i class="material-icons mdl-color-text--red">remove_circle_outline</i>
@@ -127,10 +127,10 @@
                                 {% for put in putsChain %}
                                 <tr>
                                     <td class="mdl-data-table__cell--non-numeric">{{put['symbol']}}</td>
-                                    <td>{{put['strike']}}</td>
-                                    <td>{{put['last']}}</td>
-                                    <td>{{put['bid']}}</td>
-                                    <td>{{put['ask']}}</td>
+                                    <td>{{'${:.0f}'.format(put['strike'])}}</td>
+                                    <td>{{'${:.2f}'.format(put['last'])}}</td>
+                                    <td>{{'${:.2f}'.format(put['bid'])}}</td>
+                                    <td>{{'${:.2f}'.format(put['ask'])}}</td>
                                     <td style="text-align:center; vertical-align:middle; padding-top: 0px;">
                                         <button class="mdl-button mdl-js-button mdl-button--icon mdl-js-ripple-effect mdl-button--colored">
                                             <i class="material-icons mdl-color-text--red">remove_circle_outline</i>
