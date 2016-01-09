@@ -9,26 +9,6 @@ def hello_world():
     return getChain()
 
 # variable route to quote a symbol
-@app.route('/quote/',methods=['POST'])
-def quote():
-    symbol = request.form['symbol']
-    # set up the https connection with Tradier API
-    connection = httplib.HTTPSConnection('sandbox.tradier.com', 443, timeout = 30)
-    # build headers to deliver to Tradier
-    headers = {"Accept":"application/json", "Authorization":"Bearer NrGhOFZHuGFdVtIzcwyRULgxjRFJ"}
-    # send request to connection
-    url = '/v1/markets/quotes?symbols=%s' % symbol
-    connection.request('GET', url, None, headers)
-
-    try:
-        response = connection.getresponse()
-        jsonQuote = json.loads(response.read())
-        print json.dumps(jsonQuote, indent=4)
-        print('Response status ' + str(response.status))
-        responseHeaders = response.getheaders()
-        return render_template('quote.html')
-    except httplib.HTTPException, e:
-        print('Exception during request')
 
 @app.route('/chain/', methods=['GET','POST'])
 def getChain():
