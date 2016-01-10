@@ -24,7 +24,7 @@
         </div>
     </body>
     <script>
-        var jsonData = {{JSONData|tojson if JSONData else 'null'}};
+        var jsonData = {{JSONData|safe if JSONData else 'null'}};
     </script>
     <script src={{ url_for('static', filename='mdl/material.min.js')}}></script>
     <script src={{ url_for('static', filename='node_modules/chart.js/Chart.min.js')}}></script>

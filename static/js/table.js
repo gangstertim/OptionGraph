@@ -1,7 +1,7 @@
 $(function() {
     $('table').on('click', 'button', tableClick);
     
-    var lineChartData = {
+    var graphData = {
         labels : ["January", "February", "March", "April", "May"],
         datasets : [
             {
@@ -13,26 +13,15 @@ $(function() {
                 pointHighlightFill: "#fff",
                 pointHighlightStroke: "rgba(220,220,220,1)",
                 data: [5,5,5,5,5]
-            },
-            {
-                label: "My Second Dataset",
-                fillColor: "rgba(151,187,205,0.2)",
-                strokeColor: "rgba(151,187,205,1)",
-                pointColor: "rgba(151,187,205,1)",
-                pointStrokeColor: "#fff",
-                pointHighlightFill: "#fff",
-                pointHighlightStroke: "rgba(151,187,205,1)",
-                data: [5,5,5,5,5]
             }
         ]
     }
+
     var ctx = document.getElementById("myChart").getContext("2d");
-    window.myLine = new Chart(ctx).Line(lineChartData,{
+    var OptionPlot = new Chart(ctx).Line(graphData,{
         bezierCurve: false,
         responsive: true
     });
-    
-    console.log(jsonData);
 
     var Basket = new OptionBasket();
     
@@ -45,8 +34,7 @@ $(function() {
             } else {
                 this._options[symbol] = 1;
             }
-
-            console.log(this._options);
+            this._recalculateGraph();
         };
         this.removeOption = function(symbol) {
             if (this._options[symbol]) {
@@ -54,10 +42,28 @@ $(function() {
             } else {
                 this._options[symbol] = -1;
             }
-            console.log(this._options);
+            this._recalculateGraph();
         };
-        this.recalculateGraph = function() {
-            var min = 0;
+        this._getXRange = function(numIntervals, multiplyer) {
+            var multiplyer = multiplyer || 1.2;
+            var numIntervals = numIntervals || 10;
+            var max = 0;
+            var range = [];
+
+            Object.keys(this._options).forEach(function(optKey) {
+                if (jsonData[optKey].strike > max) {
+                    max = jsonData[optKey].strike;
+                }
+            });
+            max = 1.2*max;
+            for (var i = 0; i < numIntervals; i++) {
+                range[i] = max/numIntervals*i;
+            }
+            return range;
+        };
+        this._recalculateGraph = function() {
+            OptionPlot.scale.xLabels = this._getXRange();
+            OptionPlot.update();
             // var max = max price in strike price list
         };
     }

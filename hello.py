@@ -33,7 +33,10 @@ def getChain():
         contractsList = sorted(jsonQuote['options']['option'], key=lambda contract: contract['strike'])
         putsChain = [x for x in contractsList if x['option_type'] == "put"]
         callChain = [x for x in contractsList if x['option_type'] == "call"]
-        return render_template('index.html', putChain=putsChain, callChain=callChain, JSONData=contractsList)
+        contractsMap = {}
+        for c in contractsList: 
+            contractsMap[c['symbol']] = c
+        return render_template('index.html', putChain=putsChain, callChain=callChain, JSONData=json.dumps(contractsMap))
     except httplib.HTTPException, e:
         print('Exception during request')
 
