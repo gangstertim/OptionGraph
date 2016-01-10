@@ -1,22 +1,100 @@
-(function() {
-    tables = document.getElementsByTagName('table');
-    for (var i = 0; i < tables.length; i++) {
-        tables[i].addEventListener('click', tableClick);
+$(function() {
+    $('table').on('click', 'button', tableClick);
+    
+    var lineChartData = {
+        labels : ["January", "February", "March", "April", "May"],
+        datasets : [
+            {
+                label: "My First Dataset",
+                fillColor: "rgba(220,220,220,0.2)",
+                strokeColor: "rgba(220,220,220,1)",
+                pointColor: "rgba(220,220,220,1)",
+                pointStrokeColor: "#fff",
+                pointHighlightFill: "#fff",
+                pointHighlightStroke: "rgba(220,220,220,1)",
+                data: [5,5,5,5,5]
+            },
+            {
+                label: "My Second Dataset",
+                fillColor: "rgba(151,187,205,0.2)",
+                strokeColor: "rgba(151,187,205,1)",
+                pointColor: "rgba(151,187,205,1)",
+                pointStrokeColor: "#fff",
+                pointHighlightFill: "#fff",
+                pointHighlightStroke: "rgba(151,187,205,1)",
+                data: [5,5,5,5,5]
+            }
+        ]
+    }
+    var ctx = document.getElementById("myChart").getContext("2d");
+    window.myLine = new Chart(ctx).Line(lineChartData,{
+        bezierCurve: false,
+        responsive: true
+    });
+    
+    console.log(jsonData);
+
+    var Basket = new OptionBasket();
+    
+
+    function OptionBasket() {
+        this._options = {};
+        this.addOption = function(symbol) {
+            if (this._options[symbol]) {
+                this._options[symbol] = this._options[symbol] + 1;
+            } else {
+                this._options[symbol] = 1;
+            }
+
+            console.log(this._options);
+        };
+        this.removeOption = function(symbol) {
+            if (this._options[symbol]) {
+                this._options[symbol] = this._options[symbol] - 1;
+            } else {
+                this._options[symbol] = -1;
+            }
+            console.log(this._options);
+        };
+        this.recalculateGraph = function() {
+            var min = 0;
+            // var max = max price in strike price list
+        };
     }
 
+
     function tableClick(e) {
-        if (e.target.classList.indexOf('call-buy') !== -1){
-            callBuy(e.target);
-        } else if(e.target.classList.indexOf('put-buy') !== -1){
-            putBuy(e.target);
+        if (e.currentTarget.classList.contains('call-buy')){
+            callBuy(e.currentTarget);
+        } else if(e.currentTarget.classList.contains('call-sell')){
+            callSell(e.currentTarget);
+        } else if (e.currentTarget.classList.contains('put-buy')){
+            putBuy(e.currentTarget);
+        } else if (e.currentTarget.classList.contains('put-sell')){
+            putSell(e.currentTarget);
         }
     }
 
-    function callBuy(el){
-        var qtyNode = el.parentElement.nextSibling;
-        var qty = qtyNode.innerHTML;
-
-        qtyNode.innerHTML = ++qty;
+    function getSiblingQtyNode(el) {
+        var $row = $(el).parents('tr');
+        return $row.find('.qty');        
     }
 
+    function callBuy(el) {
+        var $el = $(el);
+        var $qty = getSiblingQtyNode(el);
+        var qty = parseInt($qty.text());
+        $qty.text(qty + 1);
+
+        Basket.addOption($el.data('id'));
+    }
+
+    function callSell(el) {
+        var $el = $(el);
+        var $qty = getSiblingQtyNode(el);
+        var qty = parseInt($qty.text());
+        $qty.text(qty - 1);
+
+        Basket.removeOption($el.data('id'));
+    }
 }());

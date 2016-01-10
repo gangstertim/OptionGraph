@@ -12,7 +12,7 @@
         </tr>
     </thead>
     <tbody>
-        {% for put in putsChain %}
+        {% for put in putChain %}
         <tr>
             <td class="mdl-data-table__cell--non-numeric">{{put['symbol']}}</td>
             <td>{{'${:.0f}'.format(put['strike'])}}</td>

@@ -28,16 +28,12 @@ def getChain():
     connection.request('GET', url, None, headers)
 
     try:
-        response = connection.getresponse()
-        jsonQuote = json.loads(response.read())
+        response = connection.getresponse().read()
+        jsonQuote = json.loads(response)
         contractsList = sorted(jsonQuote['options']['option'], key=lambda contract: contract['strike'])
         putsChain = [x for x in contractsList if x['option_type'] == "put"]
         callChain = [x for x in contractsList if x['option_type'] == "call"]
-        responseHeaders = response.getheaders()
-        responseBody = response.read()
-        for call in callChain:
-            print(call['last'])
-        return render_template('index.html', putsChain=putsChain, callChain=callChain)
+        return render_template('index.html', putChain=putsChain, callChain=callChain, JSONData=contractsList)
     except httplib.HTTPException, e:
         print('Exception during request')
 
