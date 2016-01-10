@@ -79,14 +79,25 @@ $(function() {
             var pnl = 0;
 
             Object.keys(this._options).forEach(function(optionKey) {
+                var profit;
+                var option = jsonData[optionKey];
                 var qty = this._options[optionKey];
-                var optionType = jsonData[optionKey].option_type;
+                var optionType = option.option_type;
                 //lookup by symbol what the strike price is
-                var strike = jsonData[optionKey].strike;
+                var strike = option.strike;
+                
                 if (optionType === 'call') {
-                    var profit = qty * Math.max(0,underlyingPrice - strike);
+                    if (qty > 0) {
+                        profit = qty * (Math.max(0,underlyingPrice - strike) - option.ask);
+                    } else {
+                        profit = qty * (Math.max(0,underlyingPrice - strike) - option.bid);
+                    }
                 } else {
-                    var profit = qty * Math.max(0,strike - underlyingPrice); //todo
+                    if (qty > 0) {
+                        var profit = qty * (Math.max(0,strike - underlyingPrice) - option.ask);
+                    } else {
+                        var profit = qty * (Math.max(0, strike - underlyingPrice) - option.bid);
+                    }
                 }
                 pnl = pnl + profit;
             }.bind(this));
