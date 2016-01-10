@@ -24,7 +24,7 @@ $(function() {
     });
 
     var Basket = new OptionBasket();
-    
+
 
     function OptionBasket() {
         this._options = {};
@@ -66,8 +66,24 @@ $(function() {
             OptionPlot.update();
             // var max = max price in strike price list
         };
+        this.pnlFunction = function(underlyingPrice) {
+            // given an underlying price, this function returns the pnl of the current OptionBasket
+            pnl = 0;
+            for (var optionKey in Object.keys(this._options)) {
+                var qty = this._options[optionKey];
+                var optionType = jsonData[optionKey].option_type;
+                //lookup by symbol what the strike price is
+                var strike = jsonData[optionKey].strike;
+                if (optionType === 'call') {
+                    var profit = qty * Math.max(0,underlyingPrice - strike);
+                } else {
+                    var profit = qty * Math.max(0,strike - underlyingPrice); //todo
+                }
+                pnl = pnl + profit;
+            }
+            return pnl;
+        }
     }
-
 
     function tableClick(e) {
         if (e.currentTarget.classList.contains('call-buy')){
@@ -83,7 +99,7 @@ $(function() {
 
     function getSiblingQtyNode(el) {
         var $row = $(el).parents('tr');
-        return $row.find('.qty');        
+        return $row.find('.qty');
     }
 
     function callBuy(el) {
@@ -95,7 +111,25 @@ $(function() {
         Basket.addOption($el.data('id'));
     }
 
+    function putBuy(el) {
+        var $el = $(el);
+        var $qty = getSiblingQtyNode(el);
+        var qty = parseInt($qty.text());
+        $qty.text(qty + 1);
+
+        Basket.addOption($el.data('id'));
+    }
+
     function callSell(el) {
+        var $el = $(el);
+        var $qty = getSiblingQtyNode(el);
+        var qty = parseInt($qty.text());
+        $qty.text(qty - 1);
+
+        Basket.removeOption($el.data('id'));
+    }
+
+    function putSell(el) {
         var $el = $(el);
         var $qty = getSiblingQtyNode(el);
         var qty = parseInt($qty.text());
