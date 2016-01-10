@@ -1,10 +1,13 @@
 $(function() {
     $('table').on('click', 'button', tableClick);
     
-    var graphData = {
-        labels : ["January", "February", "March", "April", "May"],
-        datasets : [
-            {
+    function GraphData(labels, data) {
+        labels = labels || [0,1,2,3,4,5,6,7,8,9];
+        data = data || [0,0,0,0,0,0,0,0,0,0];
+
+        return {
+            labels: labels,
+            datasets:  [{
                 label: "My First Dataset",
                 fillColor: "rgba(220,220,220,0.2)",
                 strokeColor: "rgba(220,220,220,1)",
@@ -12,16 +15,17 @@ $(function() {
                 pointStrokeColor: "#fff",
                 pointHighlightFill: "#fff",
                 pointHighlightStroke: "rgba(220,220,220,1)",
-                data: [5,5,5,5,5]
-            }
-        ]
+                data: data
+            }]
+        }
     }
 
     var ctx = document.getElementById("myChart").getContext("2d");
-    var OptionPlot = new Chart(ctx).Line(graphData,{
+    var chartOptions = {
         bezierCurve: false,
         responsive: true
-    });
+    };
+    var OptionPlot = new Chart(ctx).Line(new GraphData(), chartOptions);
 
     var Basket = new OptionBasket();
 
@@ -62,14 +66,19 @@ $(function() {
             return range;
         };
         this._recalculateGraph = function() {
-            OptionPlot.scale.xLabels = this._getXRange();
+            var range = this._getXRange();
+            var profits = range.map(this._pnlFunction.bind(this));
+            OptionPlot.scale.xLabels = range;
+            OptionPlot.datasets[0].points.forEach(function(point, i) {
+                point.value = profits[i];
+            });
             OptionPlot.update();
-            // var max = max price in strike price list
         };
-        this.pnlFunction = function(underlyingPrice) {
+        this._pnlFunction = function(underlyingPrice) {
             // given an underlying price, this function returns the pnl of the current OptionBasket
-            pnl = 0;
-            for (var optionKey in Object.keys(this._options)) {
+            var pnl = 0;
+
+            Object.keys(this._options).forEach(function(optionKey) {
                 var qty = this._options[optionKey];
                 var optionType = jsonData[optionKey].option_type;
                 //lookup by symbol what the strike price is
@@ -80,7 +89,7 @@ $(function() {
                     var profit = qty * Math.max(0,strike - underlyingPrice); //todo
                 }
                 pnl = pnl + profit;
-            }
+            }.bind(this));
             return pnl;
         }
     }
